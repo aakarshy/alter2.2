@@ -20,6 +20,7 @@ exports.postById = (req, res, next, id) => {
         });
 };
 
+
 /*
 exports.getPosts = (req, res) => {
     const posts = Post.find()

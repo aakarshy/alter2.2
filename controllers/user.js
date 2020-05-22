@@ -20,7 +20,10 @@ exports.userById = (req,res,next,id )=> {
 };
 
 exports.hasAuthorization = (req, res, next) => {
-	const authorized = req.profile && req.auth && req.profile._id == req.auth._id
+	let sameUser = req.profile && req.auth && req.profile._id == req.auth._id
+	let adminUser = req.profile && req.auth && req.auth.role === "admin"
+	
+	const authorized = sameUser || adminUser
 	if(!authorized) {
 		return res.status(403).json({
 			error: `User is not authorized to perform this action ${req.profile} ::::: ${req.auth._id}`
@@ -37,7 +40,7 @@ exports.allUsers = (req,res) => {
 			})
 		}
 		res.json(users);
-	}).select("name email updated created");
+	}).select("name email updated created role");
 }
 
 exports.getUser = (req, res) => {
@@ -90,6 +93,26 @@ exports.updateUser = (req,res,next) =>{
 		})
 	})
 }
+
+
+// exports.postsForTimeline = (req, res) => {
+//   let following = req.profile.following
+//   following.push(req.profile._id)
+//   Post.find({postedBy: { $in : req.profile.following } })
+//   .populate('comments', 'text created')
+//   .populate('comments.postedBy', '_id name')
+//   .populate('postedBy', '_id name')
+//   .sort('-created')
+//   .exec((err, posts) => {
+//     if (err) {
+//       return res.status(400).json({
+//         error: errorHandler.getErrorMessage(err)
+//       })
+//     }
+//     res.json(posts)
+//   })
+// }
+
 exports.userPhoto = (req,res,next) => {
 	if(req.profile.photo.data){
 		res.set("Content-Type", req.profile.photo.contentType)

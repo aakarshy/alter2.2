@@ -9,7 +9,15 @@ const cookieParser = require("cookie-parser")
 const fs = require('fs')
 const cors = require('cors')
 
+app.use(cors());
 dotenv.config()
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  next();
+});
 
 mongoose.connect(process.env.MONGO_URI,{useNewUrlParser: true,useUnifiedTopology: true })
 .then(() => console.log("connection successful"));
@@ -40,7 +48,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(expressValidator());
 app.use(cookieParser());
-app.use(cors());
+
 app.use("/api", postRoutes); 
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);

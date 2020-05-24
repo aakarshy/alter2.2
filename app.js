@@ -8,8 +8,10 @@ const expressValidator = require("express-validator")
 const cookieParser = require("cookie-parser")
 const fs = require('fs')
 const cors = require('cors')
+const methodOverride = require("method-override")
 
 app.use(cors());
+app.use(methodOverride("_method"))
 dotenv.config()
 
 app.use(function (req, res, next) {

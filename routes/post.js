@@ -7,7 +7,6 @@ const {
     isPoster,
     updatePost,
     deletePost,
-    allowDelete,
     photo,
     singlePost,
     like,
@@ -38,7 +37,7 @@ router.post('/post/new/:userId', requireSignin, createPost, createPostValidator)
 router.get('/posts/by/:userId', requireSignin, postsByUser);
 router.get('/post/:postId', singlePost);
 router.put('/post/:postId', requireSignin, isPoster, updatePost);
-router.delete('/post/:postId', requireSignin, isPoster, allowDelete, deletePost);
+router.delete('/post/:postId', requireSignin, isPoster, deletePost);
 // photo
 router.get('/post/photo/:postId', photo);
 

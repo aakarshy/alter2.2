@@ -32,6 +32,7 @@ mongoose.connection.on("error", err => {
 const postRoutes = require('./routes/post')
 const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/user')
+const cdcpostRoutes = require('./routes/cdcpost')
  
  //apiDocs
  app.get("/api",(req, res) => {
@@ -55,6 +56,8 @@ app.use(cookieParser());
 app.use("/api", postRoutes); 
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api", cdcpostRoutes);
+
 app.use(function(err, req, res, next){
 	if(err.name === "UnauthorizedError"){
 		res.status(401).json({
